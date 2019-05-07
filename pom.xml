@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.gncn</groupId>
+	<artifactId>gncn-frontend</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<build>
+	    <plugins>
+<!-- 					<plugin> -->
+<!-- 						<groupId>org.apache.maven.plugins</groupId> -->
+<!-- 						<artifactId>maven-resources-plugin</artifactId> -->
+<!-- 						<version>2.6</version> -->
+<!-- 						<executions> -->
+<!-- 							<execution> -->
+<!-- 								<id>copy-resources</id> -->
+<!-- 								<phase>validate</phase> -->
+<!-- 								<goals> -->
+<!-- 									<goal>copy-resources</goal> -->
+<!-- 								</goals> -->
+<!-- 								<configuration> -->
+<!-- 									output dir -->
+<!-- 									<outputDirectory>/tmp/build/inputs/browser/core/</outputDirectory> -->
+<!-- 									<resources> -->
+<!-- 										<resource> -->
+<!-- 											input dir -->
+<!-- 											<directory>${project.basedir}/frontend</directory> -->
+<!-- 											<filtering>false</filtering> -->
+<!-- 										</resource> -->
+<!-- 									</resources> -->
+<!-- 								</configuration> -->
+<!-- 							</execution> -->
+<!-- 						</executions> -->
+<!-- 					</plugin> -->
+					
+<!-- 					<plugin> -->
+<!-- 						<groupId>org.apache.maven.plugins</groupId> -->
+<!-- 						<artifactId>maven-antrun-plugin</artifactId> -->
+<!-- 						<version>1.8</version> -->
+<!-- 						<executions> -->
+<!-- 							<execution> -->
+<!-- 								<id>wait</id> -->
+<!-- 								<phase>validate</phase> -->
+<!-- 								<configuration> -->
+<!-- 									<target> -->
+<!-- 										<sleep seconds="200" /> -->
+<!-- 									</target> -->
+<!-- 								</configuration> -->
+<!-- 								<goals> -->
+<!-- 									<goal>run</goal> -->
+<!-- 								</goals> -->
+<!-- 							</execution> -->
+<!-- 						</executions> -->
+<!-- 					</plugin> -->
+
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<!-- optional -->
+						<configuration>
+							<workingDirectory>${project.basedir}</workingDirectory>
+							<!-- where node and npm installed -->
+							<installDirectory>${project.build.directory}</installDirectory>
+						</configuration>
+						<!-- Use the latest released version: https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
+						<version>1.7.6</version>
+						<executions>
+							<execution>
+								<id>install node and npm</id>
+								<goals>
+									<goal>install-node-and-npm</goal>
+								</goals>
+								<configuration>
+									<!-- See https://nodejs.org/en/download/ for latest node and npm 
+										(lts) versions -->
+									<nodeVersion>v10.15.3</nodeVersion>
+									<npmVersion>6.4.1</npmVersion>
+								</configuration>
+							</execution>
+
+							<execution>
+								<id>npm install</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<!-- Optional configuration which provides for running any npm command -->
+								<configuration>
+									<arguments>install</arguments>
+								</configuration>
+							</execution>
+
+							<execution>
+								<id>npm run build</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<configuration>
+									<arguments>run build</arguments>
+								</configuration>
+							</execution>
+
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>3.2.2</version>
+						<configuration>
+							<webResources>
+								<resource>
+									<!-- this is relative to the pom.xml directory -->
+									<directory>${project.basedir}/dist/</directory>
+								</resource>
+							</webResources>
+						</configuration>
+					</plugin>
+
+		</plugins>
+	</build>	
+	<properties>
+		<failOnMissingWebXml>false</failOnMissingWebXml>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<version.arquillian_universe>1.1.13.0</version.arquillian_universe>
+		<version.junit>4.12</version.junit>
+		<version.javafaker>0.16</version.javafaker>
+		<version.arquillian_persistence_dbunit>1.0.0.Alpha7</version.arquillian_persistence_dbunit>
+		<version.rest_assured>3.2.0</version.rest_assured>
+	</properties>
+</project>
